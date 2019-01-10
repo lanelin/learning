@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>九宫格 随机变色</title>
+    <style>
+      #jiu{
+          width: 334px;
+          height: 334px;
+          border: 1px solid #cccccc
+      }
+      #jiu span{
+          width: 100px;
+          height: 100px;
+          background: #f60;
+          border-radius: 20px;
+          margin: 4px;
+          display: inline-flex;
+          
+      }
+      #btn{
+          width: 334px;
+          height: 120px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center
+      }
+      #btn button{
+          width: 40%;
+          height: 50px;
+          border: 1px solid #f60;
+          background: #ffffff;
+          font-size: 16px;  
+          cursor: pointer;
+          outline:none
+      }
+      #btn button:last-child{
+          margin-top: 5px
+      }
+    </style>
+</head>
+<body>
+    <div id="jiu"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div id="btn">
+        <button id="btn1" onclick="btnstart()">开始</button>
+        <button id="btn2" onclick="btnclose()">停止</button>
+    </div>
+<script>
+var strat;
+function startBlock(){
+  //1 取得页面DOM
+  var blocks = document.getElementsByTagName('span')  
+   console.log(blocks) 
+   //遍历方块  放入数组中
+  var list = [];
+  Array.prototype.forEach.call(blocks, ( item, i ) => {
+    console.log(i,item );
+    item.style.background='#f60';
+    list.push(i)
+} );
+  console.log(list)  
+  //定义一个新数组
+  var newlist = [];
+  //循环3次 取出3次的随机数
+   for(var i=0;i<3;i++){
+         //随机取得三个小格子
+      var sjblock = Math.floor( Math.random()*(list.length-1));
+      console.log(list[sjblock]);
+      newlist.push(list[sjblock]);
+      list.splice(sjblock,1)
+   }
+   console.log(newlist);
+   console.log(list);
+  //遍历新数组  随机颜色
+   var color = ['#ccc','#345212','#ff4','blue','#456777','#FFB6C1','#8B008B','#4B0082','#6A5ACD','#191970','#00BFFF','#00FF7F']
+   for (var index in newlist){
+       var changeblock = blocks[newlist[index]];//找出页面中对应变化得三个方格
+       console.log(changeblock)
+       //随机变化颜色
+       var changecolor = Math.floor(Math.random()*(color.length-1));
+       console.log(color[changecolor])
+       changeblock.style.background=color[changecolor];
+   } 
+    }
+function btnstart(){
+    //初始化  清空
+    clearInterval(strat);
+    //定时器 
+   strat =  setInterval(startBlock,1000)
+   strat1 = setTimeout(startBlock,1)
+    //定义按钮变量 
+    var btn1 = document.getElementById('btn1');
+    btn1.style.background = "#ddd"
+}
+
+function btnclose(){
+    //取消定时器
+    clearInterval(strat);
+    clearTimeout(strat);
+    console.log('停止');
+      //1 取得页面DOM  停止后颜色全部变为橙色
+  var blocks = document.getElementsByTagName('span')  
+   //遍历方块  放入数组中  
+  var list = [];
+  Array.prototype.forEach.call(blocks, ( item, i ) => {
+    console.log(i,item );
+    item.style.background='#f60';
+} );
+    //定义按钮变量 
+    var btn1 = document.getElementById('btn1');
+    btn1.style.background = "#fff"
+  }
+
+
+</script>
+</body>
+</html>
